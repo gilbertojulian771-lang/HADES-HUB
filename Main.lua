@@ -1224,6 +1224,79 @@ end
 function p.GetTextColorForHSB(v,x)
 local z=p.Color3ToHSB(v)local
 A, B, C=z.h, z.s, z.b
-if p.GetPerceivedBrightness(v)>(x or 
--- =======================================================
+        if p.GetPerceivedBrightness(v)>(x or 0.5)then
+            return Color3.fromHSV(A/360,0,0.05)
+        else
+            return Color3.fromHSV(A/360,0,0.98)
+        end
+    end
+end
+
+-- ==========================================
+--        INICIALIZACIÓN DE LA INTERFAZ
+-- ==========================================
+local Creator = a.load('c')
+local WindUI = {
+    CreateWindow = function(self, cfg)
+        return Creator.NewWindow(cfg)
+    end
+}
+
+local Window = WindUI:CreateWindow({
+    Title = "HADES HUB",
+    Author = "gilbertojulian771-lang"
+})
+
+local FarmTab = Window:Tab({ Title = "Auto Farm", Icon = "dumbbell" })
+
+-- ==========================================
+--         FUNCIONES DE MUSCLE LEGENDS
+-- ==========================================
+getgenv().autoPunch = false
+getgenv().autoLift = false
+
+local function doPunch()
+    while getgenv().autoPunch do
+        local p = game:GetService("Players").LocalPlayer
+        if p and p:FindFirstChild("MuscleEvent") then 
+            p.MuscleEvent:FireServer("punchClick") 
+        end
+        task.wait(0.12)
+    end
+end
+
+local function doLift()
+    while getgenv().autoLift do
+        local p = game:GetService("Players").LocalPlayer
+        if p and p:FindFirstChild("MuscleEvent") then 
+            p.MuscleEvent:FireServer("liftWeight") 
+        end
+        task.wait(0.12)
+    end
+end
+
+-- ==========================================
+--                 BOTONES
+-- ==========================================
+FarmTab:Section({ Title = "Entrenamiento Automático" })
+
+FarmTab:Toggle({
+    Title = "Auto Golpe (Punch)",
+    Value = false,
+    Callback = function(state)
+        getgenv().autoPunch = state
+        if state then task.spawn(doPunch) end
+    end
+})
+
+FarmTab:Toggle({
+    Title = "Auto Pesas (Lift)",
+    Value = false,
+    Callback = function(state)
+        getgenv().autoLift = state
+        if state then task.spawn(doLift) end
+    end
+})
+
+
 
