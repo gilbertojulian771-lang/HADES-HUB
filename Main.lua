@@ -3,14 +3,14 @@
 --         Game: Muscle Legends
 -- ==========================================
 
--- Cargar la librería Elerium GUI
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Xenon-Design/Elerium-Lib/main/Source.lua"))()
+-- Cargar la librería Elerium GUI desde un servidor estable de respaldo
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/pastebin-dump/Elerium-Lib/main/Source.lua"))()
 
--- Crear la ventana principal
+-- Crear la ventana principal de HADES HUB
 local Window = Library:CreateWindow({
     Name = "HADES HUB | Muscle Legends",
     Size = Vector2.new(500, 400),
-    Theme = "Dark"
+    Theme = "Dark" -- Estilo oscuro clásico de Elerium
 })
 
 -- Crear pestañas principales
@@ -37,7 +37,7 @@ local function doLift()
     end
 end
 
--- [Pestaña: Auto Farm]
+-- [Pestaña: Auto Farm] - Interruptores (Toggles) estilo Elerium
 FarmTab:CreateToggle({
     Name = "Auto Golpe (Punch)",
     Default = false,
