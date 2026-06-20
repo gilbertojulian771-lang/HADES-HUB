@@ -1231,16 +1231,10 @@ A, B, C=z.h, z.s, z.b
         end
     end
 end
-
 -- ==========================================
 --        INICIALIZACIÓN DE LA INTERFAZ
 -- ==========================================
-local Creator = a.load('c')
-local WindUI = {
-    CreateWindow = function(self, cfg)
-        return Creator.NewWindow(cfg)
-    end
-}
+local WindUI = a.load('c') 
 
 local Window = WindUI:CreateWindow({
     Title = "HADES HUB",
@@ -1297,6 +1291,3 @@ FarmTab:Toggle({
         if state then task.spawn(doLift) end
     end
 })
-
-
-
