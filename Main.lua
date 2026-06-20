@@ -1234,7 +1234,7 @@ end
 -- ==========================================
 --        INICIALIZACIÓN DE LA INTERFAZ
 -- ==========================================
-local WindUI = a.load('c') 
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/AnsuzHub/WindUI/main/Source.lua"))()
 
 local Window = WindUI:CreateWindow({
     Title = "HADES HUB",
