@@ -1,16 +1,23 @@
 -- ==========================================
 --               HADES HUB 
---         Game: Muscle Legends
+--         Game: Muscle Legends (Delta Mobile)
 -- ==========================================
 
--- Cargar la librería Elerium GUI desde un servidor estable de respaldo
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/pastebin-dump/Elerium-Lib/main/Source.lua"))()
+-- Intentar cargar Elerium usando un enlace altamente compatible con Delta
+local success, Library = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Roblox/main/Elerium", true))()
+end)
+
+-- Si por alguna razón Delta bloquea el primer enlace, usamos este método alternativo
+if not success or not Library then
+    Library = loadstring(game:HttpGet("https://pastebin.com/raw/AHe4gP6G"))()
+end
 
 -- Crear la ventana principal de HADES HUB
 local Window = Library:CreateWindow({
     Name = "HADES HUB | Muscle Legends",
-    Size = Vector2.new(500, 400),
-    Theme = "Dark" -- Estilo oscuro clásico de Elerium
+    Size = Vector2.new(480, 360), -- Tamaño ligeramente optimizado para pantallas de celular
+    Theme = "Dark"
 })
 
 -- Crear pestañas principales
@@ -20,24 +27,30 @@ local FarmTab = Window:CreateTab("Auto Farm")
 getgenv().autoPunch = false
 getgenv().autoLift = false
 
--- Funciones de automatización
+-- Funciones de automatización con task.wait optimizado para móviles
 local function doPunch()
     while getgenv().autoPunch do
         local args = { [1] = "punchClick" }
-        game:GetService("Players").LocalPlayer.MuscleEvent:FireServer(unpack(args))
-        task.wait(0.1)
+        local localPlayer = game:GetService("Players").LocalPlayer
+        if localPlayer and localPlayer:FindFirstChild("MuscleEvent") then
+            localPlayer.MuscleEvent:FireServer(unpack(args))
+        end
+        task.wait(0.15) -- Un delay ligeramente mayor para evitar lag en Delta
     end
 end
 
 local function doLift()
     while getgenv().autoLift do
         local args = { [1] = "liftWeight" }
-        game:GetService("Players").LocalPlayer.MuscleEvent:FireServer(unpack(args))
-        task.wait(0.1)
+        local localPlayer = game:GetService("Players").LocalPlayer
+        if localPlayer and localPlayer:FindFirstChild("MuscleEvent") then
+            localPlayer.MuscleEvent:FireServer(unpack(args))
+        end
+        task.wait(0.15)
     end
 end
 
--- [Pestaña: Auto Farm] - Interruptores (Toggles) estilo Elerium
+-- [Pestaña: Auto Farm] - Toggles compatibles con Elerium
 FarmTab:CreateToggle({
     Name = "Auto Golpe (Punch)",
     Default = false,
